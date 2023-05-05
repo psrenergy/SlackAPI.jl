@@ -2,10 +2,10 @@ function mention(username::AbstractString)
     return "<@$(username)>"
 end
 
-function channel_message(token::String, channel::AbstractString, text::AbstractString)
+function channel_message(context::SlackContext, channel::AbstractString, text::AbstractString)
     header = [
         "Content-Type"  => "application/json;charset=utf-8",
-        "Authorization" => "Bearer $token",
+        "Authorization" => "Bearer $(context.token)",
     ]
 
     body = JSON.json(
