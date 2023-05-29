@@ -21,3 +21,27 @@ function channel_message(context::SlackContext, channel::AbstractString, text::A
         body,
     )
 end
+
+function is_active(context::SlackContext, id::AbstractString)
+    header = [
+        "Content-Type"  => "application/json;charset=utf-8",
+        "Authorization" => "Bearer $(context.token)",
+    ]
+
+    query = ["user" => id]
+
+    response = HTTP.get(
+        "https://slack.com/api/users.info",
+        header;
+        query
+    )
+
+    @assert response.status == 200
+
+    data = JSON.parse(String(response.body))
+
+    @assert haskey(data, "user")
+    @assert haskey(data["user"], "deleted")
+
+    return !(data["user"]["deleted"]::Bool)
+end
