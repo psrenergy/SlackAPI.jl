@@ -11,12 +11,15 @@ A minimal and lightweight Julia wrapper for the Slack API
 julia> ] add SlackAPI
 ```
 
+```julia
+using SlackAPI
+```
+
 ### Context
 
 ```julia
-using SlackAPI
-
 token = "xoxb-xxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"
+
 context = SlackContext(token)
 ```
 
