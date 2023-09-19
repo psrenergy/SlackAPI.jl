@@ -1,5 +1,5 @@
-function mention(username::AbstractString)
-    return "<@$(username)>"
+function mention(user::AbstractString)
+    return "<@$(user)>"
 end
 
 function channel_message(
@@ -17,13 +17,13 @@ function channel_message(
     return HTTP.post("https://slack.com/api/chat.postMessage", header, body)
 end
 
-function is_active(context::SlackContext, id::AbstractString)
+function is_active(context::SlackContext, user::AbstractString)
     header = [
         "Content-Type" => "application/json;charset=utf-8",
         "Authorization" => "Bearer $(context.token)",
     ]
 
-    query = ["user" => id]
+    query = ["user" => user]
 
     response = HTTP.get("https://slack.com/api/users.info", header, query)
 

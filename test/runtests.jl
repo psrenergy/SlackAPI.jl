@@ -13,12 +13,19 @@ function testall()
 
     token = ENV["SLACK_TOKEN"]
     channel = ENV["SLACK_CHANNEL"]
+    user = ENV["SLACK_USER"]
+
+    @assert !isempty(token)
+    @assert !isempty(channel)
+    @assert !isempty(user)
 
     context = SlackContext(token)
 
-    response = channel_message(context, channel, "Hello, World!")
-
+    message = "$(SlackAPI.mention(user)) testing..."
+    response = SlackAPI.channel_message(context, channel, message)
     @assert response.status == 200
+
+    # @assert SlackAPI.is_active(context, user)
 end
 
 testall()
