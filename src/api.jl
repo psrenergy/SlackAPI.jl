@@ -32,7 +32,7 @@ function is_active(context::SlackContext, id::AbstractString)
 
     response = HTTP.get(
         "https://slack.com/api/users.info",
-        header;
+        header,
         query
     )
 
@@ -40,8 +40,9 @@ function is_active(context::SlackContext, id::AbstractString)
 
     data = JSON.parse(String(response.body))
 
-    @assert haskey(data, "user")
-    @assert haskey(data["user"], "deleted")
-
-    return !(data["user"]["deleted"]::Bool)
+    if haskey(data, "user") && haskey(data["user"], "deleted")
+        return !(data["user"]["deleted"]::Bool)
+    else
+        return false
+    end
 end
