@@ -6,3 +6,10 @@ struct SlackContext
         return new(token)
     end
 end
+
+function header(context::SlackContext)
+    return [
+        "Content-Type" => "application/json;charset=utf-8",
+        "Authorization" => "Bearer $(context.token)",
+    ]
+end

@@ -7,25 +7,15 @@ function channel_message(
     channel::AbstractString,
     text::AbstractString,
 )
-    header = [
-        "Content-Type" => "application/json;charset=utf-8",
-        "Authorization" => "Bearer $(context.token)",
-    ]
-
     body = JSON.json(Dict("text" => text, "channel" => channel))
 
-    return HTTP.post("https://slack.com/api/chat.postMessage", header, body)
+    return HTTP.post("https://slack.com/api/chat.postMessage", header(context), body)
 end
 
 function is_active(context::SlackContext, user::AbstractString)
-    header = [
-        "Content-Type" => "application/json;charset=utf-8",
-        "Authorization" => "Bearer $(context.token)",
-    ]
+    query = Dict("user" => user)
 
-    query = ["user" => user]
-
-    response = HTTP.get("https://slack.com/api/users.info", header, query)
+    response = HTTP.get("https://slack.com/api/users.info", header(context), query = query)
 
     @assert response.status == 200
 
