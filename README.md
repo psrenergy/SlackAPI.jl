@@ -5,3 +5,34 @@
 
 A minimal and lightweight Julia wrapper for the Slack API
 
+## Usage
+
+```julia
+julia> ] add SlackAPI
+```
+
+### Context
+
+```julia
+using SlackAPI
+
+token = "xoxb-xxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"
+context = SlackContext(token)
+```
+
+### Channel Message
+
+```julia
+channel = "Cxxxxxxxxxx"
+message = "Hello, World!"
+
+SlackAPI.channel_message(context, channel, message)
+```
+
+### Is the User Active?
+
+```julia
+user = "Uxxxxxxxxxx"
+
+is_active = SlackAPI.is_active(context, user)
+```
